@@ -461,8 +461,6 @@ def datastore_search_sql(context, data_dict):
             'query': ['Query is not a single statement.']
         })
 
-    p.toolkit.check_access('datastore_search_sql', context, data_dict)
-
     data_dict['connection_url'] = pylons.config['ckan.datastore.read_url']
 
     result = db.search_sql(context, data_dict)

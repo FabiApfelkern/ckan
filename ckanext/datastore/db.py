@@ -1224,6 +1224,13 @@ def search_sql(context, data_dict):
                 'permissions': ['Not authorized to access system tables']
             })
 
+        # Check the user has the correct permissions for this resource. This would
+        # normally be done in the action function (action.datastore_search_sql) but
+        # it is only at this point that we know which tables are being queried.
+        for resource_table in table_names:
+            data_dict['resource_id'] = resource_table
+            p.toolkit.check_access('datastore_search_sql', context, data_dict)
+
         results = context['connection'].execute(sql)
 
         return format_results(context, results, data_dict)
